@@ -9,232 +9,577 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as siteLayoutRouteRouteImport } from './routes/(site)/_layout/route'
-import { Route as legalLayoutRouteRouteImport } from './routes/(legal)/_layout/route'
-import { Route as siteLayoutIndexRouteImport } from './routes/(site)/_layout/index'
-import { Route as siteLayoutPricingRouteImport } from './routes/(site)/_layout/pricing'
-import { Route as legalLayoutTermsRouteImport } from './routes/(legal)/_layout/terms'
-import { Route as legalLayoutPrivacyRouteImport } from './routes/(legal)/_layout/privacy'
-import { Route as siteLayoutBlogRouteRouteImport } from './routes/(site)/_layout/blog/route'
-import { Route as siteLayoutBlogIndexRouteImport } from './routes/(site)/_layout/blog/index'
-import { Route as siteLayoutBlogSlugRouteImport } from './routes/(site)/_layout/blog/$slug'
+import { Route as siteRouteRouteImport } from './routes/(site)/route'
+import { Route as legalRouteRouteImport } from './routes/(legal)/route'
+import { Route as siteIndexRouteImport } from './routes/(site)/index'
+import { Route as sitePricingRouteImport } from './routes/(site)/pricing'
+import { Route as legalTermsRouteImport } from './routes/(legal)/terms'
+import { Route as legalPrivacyRouteImport } from './routes/(legal)/privacy'
+import { Route as siteBlogRouteRouteImport } from './routes/(site)/blog/route'
+import { Route as protectedSettingsRouteRouteImport } from './routes/(protected)/settings/route'
+import { Route as siteBlogIndexRouteImport } from './routes/(site)/blog/index'
+import { Route as protectedSettingsIndexRouteImport } from './routes/(protected)/settings/index'
+import { Route as siteBlogSlugRouteImport } from './routes/(site)/blog/$slug'
+import { Route as protectedSettingsTasksRouteImport } from './routes/(protected)/settings/tasks'
+import { Route as protectedSettingsSubscriptionRouteImport } from './routes/(protected)/settings/subscription'
+import { Route as protectedSettingsSecurityRouteImport } from './routes/(protected)/settings/security'
+import { Route as protectedSettingsPurchasesRouteImport } from './routes/(protected)/settings/purchases'
+import { Route as protectedSettingsProfileRouteImport } from './routes/(protected)/settings/profile'
+import { Route as protectedSettingsCreditsRouteImport } from './routes/(protected)/settings/credits'
+import { Route as protectedSettingsAdminIndexRouteImport } from './routes/(protected)/settings/admin/index'
+import { Route as protectedSettingsAdminUsersRouteImport } from './routes/(protected)/settings/admin/users'
+import { Route as protectedSettingsAdminSystemRouteImport } from './routes/(protected)/settings/admin/system'
+import { Route as protectedSettingsAdminFeedbackRouteImport } from './routes/(protected)/settings/admin/feedback'
+import { Route as protectedSettingsAdminDeletionsRouteImport } from './routes/(protected)/settings/admin/deletions'
+import { Route as protectedSettingsAdminDashboardRouteImport } from './routes/(protected)/settings/admin/dashboard'
+import { Route as protectedSettingsAdminCreditsRouteImport } from './routes/(protected)/settings/admin/credits'
 
-const siteLayoutRouteRoute = siteLayoutRouteRouteImport.update({
-  id: '/(site)/_layout',
+const siteRouteRoute = siteRouteRouteImport.update({
+  id: '/(site)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const legalLayoutRouteRoute = legalLayoutRouteRouteImport.update({
-  id: '/(legal)/_layout',
+const legalRouteRoute = legalRouteRouteImport.update({
+  id: '/(legal)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const siteLayoutIndexRoute = siteLayoutIndexRouteImport.update({
+const siteIndexRoute = siteIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => siteLayoutRouteRoute,
+  getParentRoute: () => siteRouteRoute,
 } as any)
-const siteLayoutPricingRoute = siteLayoutPricingRouteImport.update({
+const sitePricingRoute = sitePricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
-  getParentRoute: () => siteLayoutRouteRoute,
+  getParentRoute: () => siteRouteRoute,
 } as any)
-const legalLayoutTermsRoute = legalLayoutTermsRouteImport.update({
+const legalTermsRoute = legalTermsRouteImport.update({
   id: '/terms',
   path: '/terms',
-  getParentRoute: () => legalLayoutRouteRoute,
+  getParentRoute: () => legalRouteRoute,
 } as any)
-const legalLayoutPrivacyRoute = legalLayoutPrivacyRouteImport.update({
+const legalPrivacyRoute = legalPrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
-  getParentRoute: () => legalLayoutRouteRoute,
+  getParentRoute: () => legalRouteRoute,
 } as any)
-const siteLayoutBlogRouteRoute = siteLayoutBlogRouteRouteImport.update({
+const siteBlogRouteRoute = siteBlogRouteRouteImport.update({
   id: '/blog',
   path: '/blog',
-  getParentRoute: () => siteLayoutRouteRoute,
+  getParentRoute: () => siteRouteRoute,
 } as any)
-const siteLayoutBlogIndexRoute = siteLayoutBlogIndexRouteImport.update({
+const protectedSettingsRouteRoute = protectedSettingsRouteRouteImport.update({
+  id: '/(protected)/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const siteBlogIndexRoute = siteBlogIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => siteLayoutBlogRouteRoute,
+  getParentRoute: () => siteBlogRouteRoute,
 } as any)
-const siteLayoutBlogSlugRoute = siteLayoutBlogSlugRouteImport.update({
+const protectedSettingsIndexRoute = protectedSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => protectedSettingsRouteRoute,
+} as any)
+const siteBlogSlugRoute = siteBlogSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
-  getParentRoute: () => siteLayoutBlogRouteRoute,
+  getParentRoute: () => siteBlogRouteRoute,
 } as any)
+const protectedSettingsTasksRoute = protectedSettingsTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => protectedSettingsRouteRoute,
+} as any)
+const protectedSettingsSubscriptionRoute =
+  protectedSettingsSubscriptionRouteImport.update({
+    id: '/subscription',
+    path: '/subscription',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsSecurityRoute =
+  protectedSettingsSecurityRouteImport.update({
+    id: '/security',
+    path: '/security',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsPurchasesRoute =
+  protectedSettingsPurchasesRouteImport.update({
+    id: '/purchases',
+    path: '/purchases',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsProfileRoute =
+  protectedSettingsProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsCreditsRoute =
+  protectedSettingsCreditsRouteImport.update({
+    id: '/credits',
+    path: '/credits',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsAdminIndexRoute =
+  protectedSettingsAdminIndexRouteImport.update({
+    id: '/admin/',
+    path: '/admin/',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsAdminUsersRoute =
+  protectedSettingsAdminUsersRouteImport.update({
+    id: '/admin/users',
+    path: '/admin/users',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsAdminSystemRoute =
+  protectedSettingsAdminSystemRouteImport.update({
+    id: '/admin/system',
+    path: '/admin/system',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsAdminFeedbackRoute =
+  protectedSettingsAdminFeedbackRouteImport.update({
+    id: '/admin/feedback',
+    path: '/admin/feedback',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsAdminDeletionsRoute =
+  protectedSettingsAdminDeletionsRouteImport.update({
+    id: '/admin/deletions',
+    path: '/admin/deletions',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsAdminDashboardRoute =
+  protectedSettingsAdminDashboardRouteImport.update({
+    id: '/admin/dashboard',
+    path: '/admin/dashboard',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
+const protectedSettingsAdminCreditsRoute =
+  protectedSettingsAdminCreditsRouteImport.update({
+    id: '/admin/credits',
+    path: '/admin/credits',
+    getParentRoute: () => protectedSettingsRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/blog': typeof siteLayoutBlogRouteRouteWithChildren
-  '/privacy': typeof legalLayoutPrivacyRoute
-  '/terms': typeof legalLayoutTermsRoute
-  '/pricing': typeof siteLayoutPricingRoute
-  '/': typeof siteLayoutIndexRoute
-  '/blog/$slug': typeof siteLayoutBlogSlugRoute
-  '/blog/': typeof siteLayoutBlogIndexRoute
+  '/settings': typeof protectedSettingsRouteRouteWithChildren
+  '/blog': typeof siteBlogRouteRouteWithChildren
+  '/privacy': typeof legalPrivacyRoute
+  '/terms': typeof legalTermsRoute
+  '/pricing': typeof sitePricingRoute
+  '/': typeof siteIndexRoute
+  '/settings/credits': typeof protectedSettingsCreditsRoute
+  '/settings/profile': typeof protectedSettingsProfileRoute
+  '/settings/purchases': typeof protectedSettingsPurchasesRoute
+  '/settings/security': typeof protectedSettingsSecurityRoute
+  '/settings/subscription': typeof protectedSettingsSubscriptionRoute
+  '/settings/tasks': typeof protectedSettingsTasksRoute
+  '/blog/$slug': typeof siteBlogSlugRoute
+  '/settings/': typeof protectedSettingsIndexRoute
+  '/blog/': typeof siteBlogIndexRoute
+  '/settings/admin/credits': typeof protectedSettingsAdminCreditsRoute
+  '/settings/admin/dashboard': typeof protectedSettingsAdminDashboardRoute
+  '/settings/admin/deletions': typeof protectedSettingsAdminDeletionsRoute
+  '/settings/admin/feedback': typeof protectedSettingsAdminFeedbackRoute
+  '/settings/admin/system': typeof protectedSettingsAdminSystemRoute
+  '/settings/admin/users': typeof protectedSettingsAdminUsersRoute
+  '/settings/admin/': typeof protectedSettingsAdminIndexRoute
 }
 export interface FileRoutesByTo {
-  '/privacy': typeof legalLayoutPrivacyRoute
-  '/terms': typeof legalLayoutTermsRoute
-  '/pricing': typeof siteLayoutPricingRoute
-  '/': typeof siteLayoutIndexRoute
-  '/blog/$slug': typeof siteLayoutBlogSlugRoute
-  '/blog': typeof siteLayoutBlogIndexRoute
+  '/privacy': typeof legalPrivacyRoute
+  '/terms': typeof legalTermsRoute
+  '/pricing': typeof sitePricingRoute
+  '/': typeof siteIndexRoute
+  '/settings/credits': typeof protectedSettingsCreditsRoute
+  '/settings/profile': typeof protectedSettingsProfileRoute
+  '/settings/purchases': typeof protectedSettingsPurchasesRoute
+  '/settings/security': typeof protectedSettingsSecurityRoute
+  '/settings/subscription': typeof protectedSettingsSubscriptionRoute
+  '/settings/tasks': typeof protectedSettingsTasksRoute
+  '/blog/$slug': typeof siteBlogSlugRoute
+  '/settings': typeof protectedSettingsIndexRoute
+  '/blog': typeof siteBlogIndexRoute
+  '/settings/admin/credits': typeof protectedSettingsAdminCreditsRoute
+  '/settings/admin/dashboard': typeof protectedSettingsAdminDashboardRoute
+  '/settings/admin/deletions': typeof protectedSettingsAdminDeletionsRoute
+  '/settings/admin/feedback': typeof protectedSettingsAdminFeedbackRoute
+  '/settings/admin/system': typeof protectedSettingsAdminSystemRoute
+  '/settings/admin/users': typeof protectedSettingsAdminUsersRoute
+  '/settings/admin': typeof protectedSettingsAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/(legal)/_layout': typeof legalLayoutRouteRouteWithChildren
-  '/(site)/_layout': typeof siteLayoutRouteRouteWithChildren
-  '/(site)/_layout/blog': typeof siteLayoutBlogRouteRouteWithChildren
-  '/(legal)/_layout/privacy': typeof legalLayoutPrivacyRoute
-  '/(legal)/_layout/terms': typeof legalLayoutTermsRoute
-  '/(site)/_layout/pricing': typeof siteLayoutPricingRoute
-  '/(site)/_layout/': typeof siteLayoutIndexRoute
-  '/(site)/_layout/blog/$slug': typeof siteLayoutBlogSlugRoute
-  '/(site)/_layout/blog/': typeof siteLayoutBlogIndexRoute
+  '/(legal)': typeof legalRouteRouteWithChildren
+  '/(site)': typeof siteRouteRouteWithChildren
+  '/(protected)/settings': typeof protectedSettingsRouteRouteWithChildren
+  '/(site)/blog': typeof siteBlogRouteRouteWithChildren
+  '/(legal)/privacy': typeof legalPrivacyRoute
+  '/(legal)/terms': typeof legalTermsRoute
+  '/(site)/pricing': typeof sitePricingRoute
+  '/(site)/': typeof siteIndexRoute
+  '/(protected)/settings/credits': typeof protectedSettingsCreditsRoute
+  '/(protected)/settings/profile': typeof protectedSettingsProfileRoute
+  '/(protected)/settings/purchases': typeof protectedSettingsPurchasesRoute
+  '/(protected)/settings/security': typeof protectedSettingsSecurityRoute
+  '/(protected)/settings/subscription': typeof protectedSettingsSubscriptionRoute
+  '/(protected)/settings/tasks': typeof protectedSettingsTasksRoute
+  '/(site)/blog/$slug': typeof siteBlogSlugRoute
+  '/(protected)/settings/': typeof protectedSettingsIndexRoute
+  '/(site)/blog/': typeof siteBlogIndexRoute
+  '/(protected)/settings/admin/credits': typeof protectedSettingsAdminCreditsRoute
+  '/(protected)/settings/admin/dashboard': typeof protectedSettingsAdminDashboardRoute
+  '/(protected)/settings/admin/deletions': typeof protectedSettingsAdminDeletionsRoute
+  '/(protected)/settings/admin/feedback': typeof protectedSettingsAdminFeedbackRoute
+  '/(protected)/settings/admin/system': typeof protectedSettingsAdminSystemRoute
+  '/(protected)/settings/admin/users': typeof protectedSettingsAdminUsersRoute
+  '/(protected)/settings/admin/': typeof protectedSettingsAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/settings'
     | '/blog'
     | '/privacy'
     | '/terms'
     | '/pricing'
     | '/'
+    | '/settings/credits'
+    | '/settings/profile'
+    | '/settings/purchases'
+    | '/settings/security'
+    | '/settings/subscription'
+    | '/settings/tasks'
     | '/blog/$slug'
+    | '/settings/'
     | '/blog/'
+    | '/settings/admin/credits'
+    | '/settings/admin/dashboard'
+    | '/settings/admin/deletions'
+    | '/settings/admin/feedback'
+    | '/settings/admin/system'
+    | '/settings/admin/users'
+    | '/settings/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/privacy' | '/terms' | '/pricing' | '/' | '/blog/$slug' | '/blog'
+  to:
+    | '/privacy'
+    | '/terms'
+    | '/pricing'
+    | '/'
+    | '/settings/credits'
+    | '/settings/profile'
+    | '/settings/purchases'
+    | '/settings/security'
+    | '/settings/subscription'
+    | '/settings/tasks'
+    | '/blog/$slug'
+    | '/settings'
+    | '/blog'
+    | '/settings/admin/credits'
+    | '/settings/admin/dashboard'
+    | '/settings/admin/deletions'
+    | '/settings/admin/feedback'
+    | '/settings/admin/system'
+    | '/settings/admin/users'
+    | '/settings/admin'
   id:
     | '__root__'
-    | '/(legal)/_layout'
-    | '/(site)/_layout'
-    | '/(site)/_layout/blog'
-    | '/(legal)/_layout/privacy'
-    | '/(legal)/_layout/terms'
-    | '/(site)/_layout/pricing'
-    | '/(site)/_layout/'
-    | '/(site)/_layout/blog/$slug'
-    | '/(site)/_layout/blog/'
+    | '/(legal)'
+    | '/(site)'
+    | '/(protected)/settings'
+    | '/(site)/blog'
+    | '/(legal)/privacy'
+    | '/(legal)/terms'
+    | '/(site)/pricing'
+    | '/(site)/'
+    | '/(protected)/settings/credits'
+    | '/(protected)/settings/profile'
+    | '/(protected)/settings/purchases'
+    | '/(protected)/settings/security'
+    | '/(protected)/settings/subscription'
+    | '/(protected)/settings/tasks'
+    | '/(site)/blog/$slug'
+    | '/(protected)/settings/'
+    | '/(site)/blog/'
+    | '/(protected)/settings/admin/credits'
+    | '/(protected)/settings/admin/dashboard'
+    | '/(protected)/settings/admin/deletions'
+    | '/(protected)/settings/admin/feedback'
+    | '/(protected)/settings/admin/system'
+    | '/(protected)/settings/admin/users'
+    | '/(protected)/settings/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  legalLayoutRouteRoute: typeof legalLayoutRouteRouteWithChildren
-  siteLayoutRouteRoute: typeof siteLayoutRouteRouteWithChildren
+  legalRouteRoute: typeof legalRouteRouteWithChildren
+  siteRouteRoute: typeof siteRouteRouteWithChildren
+  protectedSettingsRouteRoute: typeof protectedSettingsRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/(site)/_layout': {
-      id: '/(site)/_layout'
+    '/(site)': {
+      id: '/(site)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof siteLayoutRouteRouteImport
+      preLoaderRoute: typeof siteRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(legal)/_layout': {
-      id: '/(legal)/_layout'
+    '/(legal)': {
+      id: '/(legal)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof legalLayoutRouteRouteImport
+      preLoaderRoute: typeof legalRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(site)/_layout/': {
-      id: '/(site)/_layout/'
+    '/(site)/': {
+      id: '/(site)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof siteLayoutIndexRouteImport
-      parentRoute: typeof siteLayoutRouteRoute
+      preLoaderRoute: typeof siteIndexRouteImport
+      parentRoute: typeof siteRouteRoute
     }
-    '/(site)/_layout/pricing': {
-      id: '/(site)/_layout/pricing'
+    '/(site)/pricing': {
+      id: '/(site)/pricing'
       path: '/pricing'
       fullPath: '/pricing'
-      preLoaderRoute: typeof siteLayoutPricingRouteImport
-      parentRoute: typeof siteLayoutRouteRoute
+      preLoaderRoute: typeof sitePricingRouteImport
+      parentRoute: typeof siteRouteRoute
     }
-    '/(legal)/_layout/terms': {
-      id: '/(legal)/_layout/terms'
+    '/(legal)/terms': {
+      id: '/(legal)/terms'
       path: '/terms'
       fullPath: '/terms'
-      preLoaderRoute: typeof legalLayoutTermsRouteImport
-      parentRoute: typeof legalLayoutRouteRoute
+      preLoaderRoute: typeof legalTermsRouteImport
+      parentRoute: typeof legalRouteRoute
     }
-    '/(legal)/_layout/privacy': {
-      id: '/(legal)/_layout/privacy'
+    '/(legal)/privacy': {
+      id: '/(legal)/privacy'
       path: '/privacy'
       fullPath: '/privacy'
-      preLoaderRoute: typeof legalLayoutPrivacyRouteImport
-      parentRoute: typeof legalLayoutRouteRoute
+      preLoaderRoute: typeof legalPrivacyRouteImport
+      parentRoute: typeof legalRouteRoute
     }
-    '/(site)/_layout/blog': {
-      id: '/(site)/_layout/blog'
+    '/(site)/blog': {
+      id: '/(site)/blog'
       path: '/blog'
       fullPath: '/blog'
-      preLoaderRoute: typeof siteLayoutBlogRouteRouteImport
-      parentRoute: typeof siteLayoutRouteRoute
+      preLoaderRoute: typeof siteBlogRouteRouteImport
+      parentRoute: typeof siteRouteRoute
     }
-    '/(site)/_layout/blog/': {
-      id: '/(site)/_layout/blog/'
+    '/(protected)/settings': {
+      id: '/(protected)/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof protectedSettingsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(site)/blog/': {
+      id: '/(site)/blog/'
       path: '/'
       fullPath: '/blog/'
-      preLoaderRoute: typeof siteLayoutBlogIndexRouteImport
-      parentRoute: typeof siteLayoutBlogRouteRoute
+      preLoaderRoute: typeof siteBlogIndexRouteImport
+      parentRoute: typeof siteBlogRouteRoute
     }
-    '/(site)/_layout/blog/$slug': {
-      id: '/(site)/_layout/blog/$slug'
+    '/(protected)/settings/': {
+      id: '/(protected)/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof protectedSettingsIndexRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(site)/blog/$slug': {
+      id: '/(site)/blog/$slug'
       path: '/$slug'
       fullPath: '/blog/$slug'
-      preLoaderRoute: typeof siteLayoutBlogSlugRouteImport
-      parentRoute: typeof siteLayoutBlogRouteRoute
+      preLoaderRoute: typeof siteBlogSlugRouteImport
+      parentRoute: typeof siteBlogRouteRoute
+    }
+    '/(protected)/settings/tasks': {
+      id: '/(protected)/settings/tasks'
+      path: '/tasks'
+      fullPath: '/settings/tasks'
+      preLoaderRoute: typeof protectedSettingsTasksRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/subscription': {
+      id: '/(protected)/settings/subscription'
+      path: '/subscription'
+      fullPath: '/settings/subscription'
+      preLoaderRoute: typeof protectedSettingsSubscriptionRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/security': {
+      id: '/(protected)/settings/security'
+      path: '/security'
+      fullPath: '/settings/security'
+      preLoaderRoute: typeof protectedSettingsSecurityRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/purchases': {
+      id: '/(protected)/settings/purchases'
+      path: '/purchases'
+      fullPath: '/settings/purchases'
+      preLoaderRoute: typeof protectedSettingsPurchasesRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/profile': {
+      id: '/(protected)/settings/profile'
+      path: '/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof protectedSettingsProfileRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/credits': {
+      id: '/(protected)/settings/credits'
+      path: '/credits'
+      fullPath: '/settings/credits'
+      preLoaderRoute: typeof protectedSettingsCreditsRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/admin/': {
+      id: '/(protected)/settings/admin/'
+      path: '/admin'
+      fullPath: '/settings/admin/'
+      preLoaderRoute: typeof protectedSettingsAdminIndexRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/admin/users': {
+      id: '/(protected)/settings/admin/users'
+      path: '/admin/users'
+      fullPath: '/settings/admin/users'
+      preLoaderRoute: typeof protectedSettingsAdminUsersRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/admin/system': {
+      id: '/(protected)/settings/admin/system'
+      path: '/admin/system'
+      fullPath: '/settings/admin/system'
+      preLoaderRoute: typeof protectedSettingsAdminSystemRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/admin/feedback': {
+      id: '/(protected)/settings/admin/feedback'
+      path: '/admin/feedback'
+      fullPath: '/settings/admin/feedback'
+      preLoaderRoute: typeof protectedSettingsAdminFeedbackRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/admin/deletions': {
+      id: '/(protected)/settings/admin/deletions'
+      path: '/admin/deletions'
+      fullPath: '/settings/admin/deletions'
+      preLoaderRoute: typeof protectedSettingsAdminDeletionsRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/admin/dashboard': {
+      id: '/(protected)/settings/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/settings/admin/dashboard'
+      preLoaderRoute: typeof protectedSettingsAdminDashboardRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/(protected)/settings/admin/credits': {
+      id: '/(protected)/settings/admin/credits'
+      path: '/admin/credits'
+      fullPath: '/settings/admin/credits'
+      preLoaderRoute: typeof protectedSettingsAdminCreditsRouteImport
+      parentRoute: typeof protectedSettingsRouteRoute
     }
   }
 }
 
-interface legalLayoutRouteRouteChildren {
-  legalLayoutPrivacyRoute: typeof legalLayoutPrivacyRoute
-  legalLayoutTermsRoute: typeof legalLayoutTermsRoute
+interface legalRouteRouteChildren {
+  legalPrivacyRoute: typeof legalPrivacyRoute
+  legalTermsRoute: typeof legalTermsRoute
 }
 
-const legalLayoutRouteRouteChildren: legalLayoutRouteRouteChildren = {
-  legalLayoutPrivacyRoute: legalLayoutPrivacyRoute,
-  legalLayoutTermsRoute: legalLayoutTermsRoute,
+const legalRouteRouteChildren: legalRouteRouteChildren = {
+  legalPrivacyRoute: legalPrivacyRoute,
+  legalTermsRoute: legalTermsRoute,
 }
 
-const legalLayoutRouteRouteWithChildren =
-  legalLayoutRouteRoute._addFileChildren(legalLayoutRouteRouteChildren)
-
-interface siteLayoutBlogRouteRouteChildren {
-  siteLayoutBlogSlugRoute: typeof siteLayoutBlogSlugRoute
-  siteLayoutBlogIndexRoute: typeof siteLayoutBlogIndexRoute
-}
-
-const siteLayoutBlogRouteRouteChildren: siteLayoutBlogRouteRouteChildren = {
-  siteLayoutBlogSlugRoute: siteLayoutBlogSlugRoute,
-  siteLayoutBlogIndexRoute: siteLayoutBlogIndexRoute,
-}
-
-const siteLayoutBlogRouteRouteWithChildren =
-  siteLayoutBlogRouteRoute._addFileChildren(siteLayoutBlogRouteRouteChildren)
-
-interface siteLayoutRouteRouteChildren {
-  siteLayoutBlogRouteRoute: typeof siteLayoutBlogRouteRouteWithChildren
-  siteLayoutPricingRoute: typeof siteLayoutPricingRoute
-  siteLayoutIndexRoute: typeof siteLayoutIndexRoute
-}
-
-const siteLayoutRouteRouteChildren: siteLayoutRouteRouteChildren = {
-  siteLayoutBlogRouteRoute: siteLayoutBlogRouteRouteWithChildren,
-  siteLayoutPricingRoute: siteLayoutPricingRoute,
-  siteLayoutIndexRoute: siteLayoutIndexRoute,
-}
-
-const siteLayoutRouteRouteWithChildren = siteLayoutRouteRoute._addFileChildren(
-  siteLayoutRouteRouteChildren,
+const legalRouteRouteWithChildren = legalRouteRoute._addFileChildren(
+  legalRouteRouteChildren,
 )
 
+interface siteBlogRouteRouteChildren {
+  siteBlogSlugRoute: typeof siteBlogSlugRoute
+  siteBlogIndexRoute: typeof siteBlogIndexRoute
+}
+
+const siteBlogRouteRouteChildren: siteBlogRouteRouteChildren = {
+  siteBlogSlugRoute: siteBlogSlugRoute,
+  siteBlogIndexRoute: siteBlogIndexRoute,
+}
+
+const siteBlogRouteRouteWithChildren = siteBlogRouteRoute._addFileChildren(
+  siteBlogRouteRouteChildren,
+)
+
+interface siteRouteRouteChildren {
+  siteBlogRouteRoute: typeof siteBlogRouteRouteWithChildren
+  sitePricingRoute: typeof sitePricingRoute
+  siteIndexRoute: typeof siteIndexRoute
+}
+
+const siteRouteRouteChildren: siteRouteRouteChildren = {
+  siteBlogRouteRoute: siteBlogRouteRouteWithChildren,
+  sitePricingRoute: sitePricingRoute,
+  siteIndexRoute: siteIndexRoute,
+}
+
+const siteRouteRouteWithChildren = siteRouteRoute._addFileChildren(
+  siteRouteRouteChildren,
+)
+
+interface protectedSettingsRouteRouteChildren {
+  protectedSettingsCreditsRoute: typeof protectedSettingsCreditsRoute
+  protectedSettingsProfileRoute: typeof protectedSettingsProfileRoute
+  protectedSettingsPurchasesRoute: typeof protectedSettingsPurchasesRoute
+  protectedSettingsSecurityRoute: typeof protectedSettingsSecurityRoute
+  protectedSettingsSubscriptionRoute: typeof protectedSettingsSubscriptionRoute
+  protectedSettingsTasksRoute: typeof protectedSettingsTasksRoute
+  protectedSettingsIndexRoute: typeof protectedSettingsIndexRoute
+  protectedSettingsAdminCreditsRoute: typeof protectedSettingsAdminCreditsRoute
+  protectedSettingsAdminDashboardRoute: typeof protectedSettingsAdminDashboardRoute
+  protectedSettingsAdminDeletionsRoute: typeof protectedSettingsAdminDeletionsRoute
+  protectedSettingsAdminFeedbackRoute: typeof protectedSettingsAdminFeedbackRoute
+  protectedSettingsAdminSystemRoute: typeof protectedSettingsAdminSystemRoute
+  protectedSettingsAdminUsersRoute: typeof protectedSettingsAdminUsersRoute
+  protectedSettingsAdminIndexRoute: typeof protectedSettingsAdminIndexRoute
+}
+
+const protectedSettingsRouteRouteChildren: protectedSettingsRouteRouteChildren =
+  {
+    protectedSettingsCreditsRoute: protectedSettingsCreditsRoute,
+    protectedSettingsProfileRoute: protectedSettingsProfileRoute,
+    protectedSettingsPurchasesRoute: protectedSettingsPurchasesRoute,
+    protectedSettingsSecurityRoute: protectedSettingsSecurityRoute,
+    protectedSettingsSubscriptionRoute: protectedSettingsSubscriptionRoute,
+    protectedSettingsTasksRoute: protectedSettingsTasksRoute,
+    protectedSettingsIndexRoute: protectedSettingsIndexRoute,
+    protectedSettingsAdminCreditsRoute: protectedSettingsAdminCreditsRoute,
+    protectedSettingsAdminDashboardRoute: protectedSettingsAdminDashboardRoute,
+    protectedSettingsAdminDeletionsRoute: protectedSettingsAdminDeletionsRoute,
+    protectedSettingsAdminFeedbackRoute: protectedSettingsAdminFeedbackRoute,
+    protectedSettingsAdminSystemRoute: protectedSettingsAdminSystemRoute,
+    protectedSettingsAdminUsersRoute: protectedSettingsAdminUsersRoute,
+    protectedSettingsAdminIndexRoute: protectedSettingsAdminIndexRoute,
+  }
+
+const protectedSettingsRouteRouteWithChildren =
+  protectedSettingsRouteRoute._addFileChildren(
+    protectedSettingsRouteRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
-  legalLayoutRouteRoute: legalLayoutRouteRouteWithChildren,
-  siteLayoutRouteRoute: siteLayoutRouteRouteWithChildren,
+  legalRouteRoute: legalRouteRouteWithChildren,
+  siteRouteRoute: siteRouteRouteWithChildren,
+  protectedSettingsRouteRoute: protectedSettingsRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

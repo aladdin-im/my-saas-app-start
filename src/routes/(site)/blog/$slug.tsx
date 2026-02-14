@@ -10,7 +10,7 @@ import { default as defaultMdxComponents } from 'fumadocs-ui/mdx';
 import { ArrowLeft } from 'lucide-react';
 import { Suspense } from 'react';
 
-export const Route = createFileRoute('/(site)/_layout/blog/$slug')({
+export const Route = createFileRoute('/(site)/blog/$slug')({
     component: BlogPostPage,
     loader: async ({ params }) => {
         const data = await serverLoader({ data: params.slug })

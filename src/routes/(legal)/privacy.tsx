@@ -6,8 +6,8 @@ import browserCollections from 'fumadocs-mdx:collections/browser';
 import { default as defaultMdxComponents } from 'fumadocs-ui/mdx';
 import { Suspense } from 'react';
 
-export const Route = createFileRoute('/(legal)/_layout/terms')({
-  component: TermsPage,
+export const Route = createFileRoute('/(legal)/privacy')({
+  component: PrivacyPage,
   loader: async () => {
     const data = await serverLoader()
     await clientLoader.preload(data.path)
@@ -18,7 +18,7 @@ export const Route = createFileRoute('/(legal)/_layout/terms')({
 const serverLoader = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  const page = legal.getPage(['terms'])
+  const page = legal.getPage(['privacy'])
   if (!page) throw notFound()
 
   return {
@@ -54,7 +54,7 @@ const clientLoader = browserCollections.legalPages.createClientLoader({
   },
 })
 
-function TermsPage() {
+function PrivacyPage() {
   const data = useFumadocsLoader(Route.useLoaderData())
 
   return (

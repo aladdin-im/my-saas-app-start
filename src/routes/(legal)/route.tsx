@@ -3,7 +3,7 @@ import Header from '@/components/Header'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { RootProvider } from 'fumadocs-ui/provider/tanstack'
 
-export const Route = createFileRoute('/(legal)/_layout')({
+export const Route = createFileRoute('/(legal)')({
     component: RouteComponent,
 })
 

@@ -2,7 +2,7 @@ import { blog } from '@/lib/source'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 
-export const Route = createFileRoute('/(site)/_layout/blog/')({
+export const Route = createFileRoute('/(site)/blog/')({
     component: BlogListPage,
     loader: async () => {
         return await serverLoader()
