@@ -13,9 +13,11 @@ import { Route as siteLayoutRouteRouteImport } from './routes/(site)/_layout/rou
 import { Route as legalLayoutRouteRouteImport } from './routes/(legal)/_layout/route'
 import { Route as siteLayoutIndexRouteImport } from './routes/(site)/_layout/index'
 import { Route as siteLayoutPricingRouteImport } from './routes/(site)/_layout/pricing'
-import { Route as siteLayoutBlogRouteImport } from './routes/(site)/_layout/blog'
 import { Route as legalLayoutTermsRouteImport } from './routes/(legal)/_layout/terms'
 import { Route as legalLayoutPrivacyRouteImport } from './routes/(legal)/_layout/privacy'
+import { Route as siteLayoutBlogRouteRouteImport } from './routes/(site)/_layout/blog/route'
+import { Route as siteLayoutBlogIndexRouteImport } from './routes/(site)/_layout/blog/index'
+import { Route as siteLayoutBlogSlugRouteImport } from './routes/(site)/_layout/blog/$slug'
 
 const siteLayoutRouteRoute = siteLayoutRouteRouteImport.update({
   id: '/(site)/_layout',
@@ -35,11 +37,6 @@ const siteLayoutPricingRoute = siteLayoutPricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => siteLayoutRouteRoute,
 } as any)
-const siteLayoutBlogRoute = siteLayoutBlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => siteLayoutRouteRoute,
-} as any)
 const legalLayoutTermsRoute = legalLayoutTermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -50,45 +47,74 @@ const legalLayoutPrivacyRoute = legalLayoutPrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => legalLayoutRouteRoute,
 } as any)
+const siteLayoutBlogRouteRoute = siteLayoutBlogRouteRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => siteLayoutRouteRoute,
+} as any)
+const siteLayoutBlogIndexRoute = siteLayoutBlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => siteLayoutBlogRouteRoute,
+} as any)
+const siteLayoutBlogSlugRoute = siteLayoutBlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => siteLayoutBlogRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/blog': typeof siteLayoutBlogRouteRouteWithChildren
   '/privacy': typeof legalLayoutPrivacyRoute
   '/terms': typeof legalLayoutTermsRoute
-  '/blog': typeof siteLayoutBlogRoute
   '/pricing': typeof siteLayoutPricingRoute
   '/': typeof siteLayoutIndexRoute
+  '/blog/$slug': typeof siteLayoutBlogSlugRoute
+  '/blog/': typeof siteLayoutBlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/privacy': typeof legalLayoutPrivacyRoute
   '/terms': typeof legalLayoutTermsRoute
-  '/blog': typeof siteLayoutBlogRoute
   '/pricing': typeof siteLayoutPricingRoute
   '/': typeof siteLayoutIndexRoute
+  '/blog/$slug': typeof siteLayoutBlogSlugRoute
+  '/blog': typeof siteLayoutBlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(legal)/_layout': typeof legalLayoutRouteRouteWithChildren
   '/(site)/_layout': typeof siteLayoutRouteRouteWithChildren
+  '/(site)/_layout/blog': typeof siteLayoutBlogRouteRouteWithChildren
   '/(legal)/_layout/privacy': typeof legalLayoutPrivacyRoute
   '/(legal)/_layout/terms': typeof legalLayoutTermsRoute
-  '/(site)/_layout/blog': typeof siteLayoutBlogRoute
   '/(site)/_layout/pricing': typeof siteLayoutPricingRoute
   '/(site)/_layout/': typeof siteLayoutIndexRoute
+  '/(site)/_layout/blog/$slug': typeof siteLayoutBlogSlugRoute
+  '/(site)/_layout/blog/': typeof siteLayoutBlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/privacy' | '/terms' | '/blog' | '/pricing' | '/'
+  fullPaths:
+    | '/blog'
+    | '/privacy'
+    | '/terms'
+    | '/pricing'
+    | '/'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/privacy' | '/terms' | '/blog' | '/pricing' | '/'
+  to: '/privacy' | '/terms' | '/pricing' | '/' | '/blog/$slug' | '/blog'
   id:
     | '__root__'
     | '/(legal)/_layout'
     | '/(site)/_layout'
+    | '/(site)/_layout/blog'
     | '/(legal)/_layout/privacy'
     | '/(legal)/_layout/terms'
-    | '/(site)/_layout/blog'
     | '/(site)/_layout/pricing'
     | '/(site)/_layout/'
+    | '/(site)/_layout/blog/$slug'
+    | '/(site)/_layout/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -126,13 +152,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof siteLayoutPricingRouteImport
       parentRoute: typeof siteLayoutRouteRoute
     }
-    '/(site)/_layout/blog': {
-      id: '/(site)/_layout/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof siteLayoutBlogRouteImport
-      parentRoute: typeof siteLayoutRouteRoute
-    }
     '/(legal)/_layout/terms': {
       id: '/(legal)/_layout/terms'
       path: '/terms'
@@ -146,6 +165,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/privacy'
       preLoaderRoute: typeof legalLayoutPrivacyRouteImport
       parentRoute: typeof legalLayoutRouteRoute
+    }
+    '/(site)/_layout/blog': {
+      id: '/(site)/_layout/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof siteLayoutBlogRouteRouteImport
+      parentRoute: typeof siteLayoutRouteRoute
+    }
+    '/(site)/_layout/blog/': {
+      id: '/(site)/_layout/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof siteLayoutBlogIndexRouteImport
+      parentRoute: typeof siteLayoutBlogRouteRoute
+    }
+    '/(site)/_layout/blog/$slug': {
+      id: '/(site)/_layout/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof siteLayoutBlogSlugRouteImport
+      parentRoute: typeof siteLayoutBlogRouteRoute
     }
   }
 }
@@ -163,14 +203,27 @@ const legalLayoutRouteRouteChildren: legalLayoutRouteRouteChildren = {
 const legalLayoutRouteRouteWithChildren =
   legalLayoutRouteRoute._addFileChildren(legalLayoutRouteRouteChildren)
 
+interface siteLayoutBlogRouteRouteChildren {
+  siteLayoutBlogSlugRoute: typeof siteLayoutBlogSlugRoute
+  siteLayoutBlogIndexRoute: typeof siteLayoutBlogIndexRoute
+}
+
+const siteLayoutBlogRouteRouteChildren: siteLayoutBlogRouteRouteChildren = {
+  siteLayoutBlogSlugRoute: siteLayoutBlogSlugRoute,
+  siteLayoutBlogIndexRoute: siteLayoutBlogIndexRoute,
+}
+
+const siteLayoutBlogRouteRouteWithChildren =
+  siteLayoutBlogRouteRoute._addFileChildren(siteLayoutBlogRouteRouteChildren)
+
 interface siteLayoutRouteRouteChildren {
-  siteLayoutBlogRoute: typeof siteLayoutBlogRoute
+  siteLayoutBlogRouteRoute: typeof siteLayoutBlogRouteRouteWithChildren
   siteLayoutPricingRoute: typeof siteLayoutPricingRoute
   siteLayoutIndexRoute: typeof siteLayoutIndexRoute
 }
 
 const siteLayoutRouteRouteChildren: siteLayoutRouteRouteChildren = {
-  siteLayoutBlogRoute: siteLayoutBlogRoute,
+  siteLayoutBlogRouteRoute: siteLayoutBlogRouteRouteWithChildren,
   siteLayoutPricingRoute: siteLayoutPricingRoute,
   siteLayoutIndexRoute: siteLayoutIndexRoute,
 }

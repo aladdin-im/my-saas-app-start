@@ -1,11 +1,13 @@
-import { defineConfig } from 'vite'
+import { cloudflare } from '@cloudflare/vite-plugin'
+import tailwindcss from '@tailwindcss/vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
-import viteTsConfigPaths from 'vite-tsconfig-paths'
+import mdx from 'fumadocs-mdx/vite'
 import { fileURLToPath, URL } from 'node:url'
-import tailwindcss from '@tailwindcss/vite'
-import { cloudflare } from '@cloudflare/vite-plugin'
+import { defineConfig } from 'vite'
+import viteTsConfigPaths from 'vite-tsconfig-paths'
+import * as MdxConfig from './source.config'
 
 const config = defineConfig({
   resolve: {
@@ -23,6 +25,7 @@ const config = defineConfig({
     tailwindcss(),
     tanstackStart(),
     viteReact(),
+    mdx(MdxConfig),
   ],
 })
 
