@@ -30,11 +30,43 @@ src/
 │   ├── auth-client.ts   # Better Auth 客户端
 │   └── auth.server.ts   # 鉴权相关 server functions
 ├── routes/
-│   ├── __root.tsx        # 根布局
-│   ├── (site)/           # 公开页面（首页、博客、定价等）
-│   ├── (protected)/      # 需要登录的页面（settings 等）
-│   ├── (legal)/          # 法律条款页面
-│   └── api/              # API 路由（auth 回调等）
+│   ├── __root.tsx                        # 根布局
+│   ├── (site)/                           # 公开页面（无需登录）
+│   │   ├── route.tsx                     #   布局
+│   │   ├── index.tsx                     #   首页
+│   │   ├── login.tsx                     #   登录页
+│   │   ├── pricing.tsx                   #   定价页
+│   │   └── blog/
+│   │       ├── route.tsx                 #   博客布局
+│   │       ├── index.tsx                 #   博客列表
+│   │       └── $slug.tsx                 #   博客详情（MDX）
+│   ├── (protected)/                      # 需要登录的页面
+│   │   ├── route.tsx                     #   路由守卫（beforeLoad 鉴权）
+│   │   └── settings/
+│   │       ├── route.tsx                 #   settings 布局
+│   │       ├── index.tsx                 #   设置首页
+│   │       ├── profile.tsx               #   个人资料
+│   │       ├── security.tsx              #   安全设置
+│   │       ├── subscription.tsx          #   订阅管理
+│   │       ├── credits.tsx               #   积分
+│   │       ├── purchases.tsx             #   购买记录
+│   │       ├── tasks.tsx                 #   任务
+│   │       └── admin/
+│   │           ├── index.tsx             #   管理后台首页
+│   │           ├── dashboard.tsx         #   仪表盘
+│   │           ├── users.tsx             #   用户管理
+│   │           ├── credits.tsx           #   积分管理
+│   │           ├── feedback.tsx          #   反馈
+│   │           ├── deletions.tsx         #   删除记录
+│   │           └── system.tsx            #   系统设置
+│   ├── (legal)/                          # 法律条款页面
+│   │   ├── route.tsx                     #   布局
+│   │   ├── terms.tsx                     #   服务条款
+│   │   └── privacy.tsx                   #   隐私政策
+│   └── api/
+│       ├── auth/
+│       │   └── $.ts                      #   Better Auth 回调处理
+│       └── order.ts                      #   订单 API
 ```
 
 ## 环境变量
