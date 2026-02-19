@@ -9,7 +9,7 @@ import { defineConfig } from 'vite'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 import * as MdxConfig from './source.config'
 
-const config = defineConfig({
+export default defineConfig(({ command }) => ({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -17,8 +17,7 @@ const config = defineConfig({
   },
   plugins: [
     devtools(),
-    cloudflare({ viteEnvironment: { name: 'ssr' } }),
-    // this is the plugin that enables path aliases
+    command === 'build' && cloudflare({ viteEnvironment: { name: 'ssr' } }),
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
@@ -26,7 +25,5 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
     mdx(MdxConfig),
-  ],
-})
-
-export default config
+  ].filter(Boolean),
+}))
