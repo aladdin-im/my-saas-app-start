@@ -1,8 +1,10 @@
-import { index, integer, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
+import { index, integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { user } from "./auth-schema";
 
 export const order = pgTable("order", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     status: varchar().notNull(),
+    userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
         .defaultNow()

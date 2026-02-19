@@ -10,15 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as siteRouteRouteImport } from './routes/(site)/route'
+import { Route as protectedRouteRouteImport } from './routes/(protected)/route'
 import { Route as legalRouteRouteImport } from './routes/(legal)/route'
 import { Route as siteIndexRouteImport } from './routes/(site)/index'
+import { Route as ApiOrderRouteImport } from './routes/api/order'
 import { Route as sitePricingRouteImport } from './routes/(site)/pricing'
+import { Route as siteLoginRouteImport } from './routes/(site)/login'
 import { Route as legalTermsRouteImport } from './routes/(legal)/terms'
 import { Route as legalPrivacyRouteImport } from './routes/(legal)/privacy'
 import { Route as siteBlogRouteRouteImport } from './routes/(site)/blog/route'
 import { Route as protectedSettingsRouteRouteImport } from './routes/(protected)/settings/route'
 import { Route as siteBlogIndexRouteImport } from './routes/(site)/blog/index'
 import { Route as protectedSettingsIndexRouteImport } from './routes/(protected)/settings/index'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as siteBlogSlugRouteImport } from './routes/(site)/blog/$slug'
 import { Route as protectedSettingsTasksRouteImport } from './routes/(protected)/settings/tasks'
 import { Route as protectedSettingsSubscriptionRouteImport } from './routes/(protected)/settings/subscription'
@@ -38,6 +42,10 @@ const siteRouteRoute = siteRouteRouteImport.update({
   id: '/(site)',
   getParentRoute: () => rootRouteImport,
 } as any)
+const protectedRouteRoute = protectedRouteRouteImport.update({
+  id: '/(protected)',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const legalRouteRoute = legalRouteRouteImport.update({
   id: '/(legal)',
   getParentRoute: () => rootRouteImport,
@@ -47,9 +55,19 @@ const siteIndexRoute = siteIndexRouteImport.update({
   path: '/',
   getParentRoute: () => siteRouteRoute,
 } as any)
+const ApiOrderRoute = ApiOrderRouteImport.update({
+  id: '/api/order',
+  path: '/api/order',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const sitePricingRoute = sitePricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => siteRouteRoute,
+} as any)
+const siteLoginRoute = siteLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => siteRouteRoute,
 } as any)
 const legalTermsRoute = legalTermsRouteImport.update({
@@ -68,9 +86,9 @@ const siteBlogRouteRoute = siteBlogRouteRouteImport.update({
   getParentRoute: () => siteRouteRoute,
 } as any)
 const protectedSettingsRouteRoute = protectedSettingsRouteRouteImport.update({
-  id: '/(protected)/settings',
+  id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => protectedRouteRoute,
 } as any)
 const siteBlogIndexRoute = siteBlogIndexRouteImport.update({
   id: '/',
@@ -81,6 +99,11 @@ const protectedSettingsIndexRoute = protectedSettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => protectedSettingsRouteRoute,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const siteBlogSlugRoute = siteBlogSlugRouteImport.update({
   id: '/$slug',
@@ -170,7 +193,9 @@ export interface FileRoutesByFullPath {
   '/blog': typeof siteBlogRouteRouteWithChildren
   '/privacy': typeof legalPrivacyRoute
   '/terms': typeof legalTermsRoute
+  '/login': typeof siteLoginRoute
   '/pricing': typeof sitePricingRoute
+  '/api/order': typeof ApiOrderRoute
   '/': typeof siteIndexRoute
   '/settings/credits': typeof protectedSettingsCreditsRoute
   '/settings/profile': typeof protectedSettingsProfileRoute
@@ -179,6 +204,7 @@ export interface FileRoutesByFullPath {
   '/settings/subscription': typeof protectedSettingsSubscriptionRoute
   '/settings/tasks': typeof protectedSettingsTasksRoute
   '/blog/$slug': typeof siteBlogSlugRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/settings/': typeof protectedSettingsIndexRoute
   '/blog/': typeof siteBlogIndexRoute
   '/settings/admin/credits': typeof protectedSettingsAdminCreditsRoute
@@ -192,7 +218,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/privacy': typeof legalPrivacyRoute
   '/terms': typeof legalTermsRoute
+  '/login': typeof siteLoginRoute
   '/pricing': typeof sitePricingRoute
+  '/api/order': typeof ApiOrderRoute
   '/': typeof siteIndexRoute
   '/settings/credits': typeof protectedSettingsCreditsRoute
   '/settings/profile': typeof protectedSettingsProfileRoute
@@ -201,6 +229,7 @@ export interface FileRoutesByTo {
   '/settings/subscription': typeof protectedSettingsSubscriptionRoute
   '/settings/tasks': typeof protectedSettingsTasksRoute
   '/blog/$slug': typeof siteBlogSlugRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/settings': typeof protectedSettingsIndexRoute
   '/blog': typeof siteBlogIndexRoute
   '/settings/admin/credits': typeof protectedSettingsAdminCreditsRoute
@@ -214,12 +243,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(legal)': typeof legalRouteRouteWithChildren
+  '/(protected)': typeof protectedRouteRouteWithChildren
   '/(site)': typeof siteRouteRouteWithChildren
   '/(protected)/settings': typeof protectedSettingsRouteRouteWithChildren
   '/(site)/blog': typeof siteBlogRouteRouteWithChildren
   '/(legal)/privacy': typeof legalPrivacyRoute
   '/(legal)/terms': typeof legalTermsRoute
+  '/(site)/login': typeof siteLoginRoute
   '/(site)/pricing': typeof sitePricingRoute
+  '/api/order': typeof ApiOrderRoute
   '/(site)/': typeof siteIndexRoute
   '/(protected)/settings/credits': typeof protectedSettingsCreditsRoute
   '/(protected)/settings/profile': typeof protectedSettingsProfileRoute
@@ -228,6 +260,7 @@ export interface FileRoutesById {
   '/(protected)/settings/subscription': typeof protectedSettingsSubscriptionRoute
   '/(protected)/settings/tasks': typeof protectedSettingsTasksRoute
   '/(site)/blog/$slug': typeof siteBlogSlugRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/(protected)/settings/': typeof protectedSettingsIndexRoute
   '/(site)/blog/': typeof siteBlogIndexRoute
   '/(protected)/settings/admin/credits': typeof protectedSettingsAdminCreditsRoute
@@ -245,7 +278,9 @@ export interface FileRouteTypes {
     | '/blog'
     | '/privacy'
     | '/terms'
+    | '/login'
     | '/pricing'
+    | '/api/order'
     | '/'
     | '/settings/credits'
     | '/settings/profile'
@@ -254,6 +289,7 @@ export interface FileRouteTypes {
     | '/settings/subscription'
     | '/settings/tasks'
     | '/blog/$slug'
+    | '/api/auth/$'
     | '/settings/'
     | '/blog/'
     | '/settings/admin/credits'
@@ -267,7 +303,9 @@ export interface FileRouteTypes {
   to:
     | '/privacy'
     | '/terms'
+    | '/login'
     | '/pricing'
+    | '/api/order'
     | '/'
     | '/settings/credits'
     | '/settings/profile'
@@ -276,6 +314,7 @@ export interface FileRouteTypes {
     | '/settings/subscription'
     | '/settings/tasks'
     | '/blog/$slug'
+    | '/api/auth/$'
     | '/settings'
     | '/blog'
     | '/settings/admin/credits'
@@ -288,12 +327,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(legal)'
+    | '/(protected)'
     | '/(site)'
     | '/(protected)/settings'
     | '/(site)/blog'
     | '/(legal)/privacy'
     | '/(legal)/terms'
+    | '/(site)/login'
     | '/(site)/pricing'
+    | '/api/order'
     | '/(site)/'
     | '/(protected)/settings/credits'
     | '/(protected)/settings/profile'
@@ -302,6 +344,7 @@ export interface FileRouteTypes {
     | '/(protected)/settings/subscription'
     | '/(protected)/settings/tasks'
     | '/(site)/blog/$slug'
+    | '/api/auth/$'
     | '/(protected)/settings/'
     | '/(site)/blog/'
     | '/(protected)/settings/admin/credits'
@@ -315,8 +358,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   legalRouteRoute: typeof legalRouteRouteWithChildren
+  protectedRouteRoute: typeof protectedRouteRouteWithChildren
   siteRouteRoute: typeof siteRouteRouteWithChildren
-  protectedSettingsRouteRoute: typeof protectedSettingsRouteRouteWithChildren
+  ApiOrderRoute: typeof ApiOrderRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -326,6 +371,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof siteRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(protected)': {
+      id: '/(protected)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof protectedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(legal)': {
@@ -342,11 +394,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof siteIndexRouteImport
       parentRoute: typeof siteRouteRoute
     }
+    '/api/order': {
+      id: '/api/order'
+      path: '/api/order'
+      fullPath: '/api/order'
+      preLoaderRoute: typeof ApiOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(site)/pricing': {
       id: '/(site)/pricing'
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof sitePricingRouteImport
+      parentRoute: typeof siteRouteRoute
+    }
+    '/(site)/login': {
+      id: '/(site)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof siteLoginRouteImport
       parentRoute: typeof siteRouteRoute
     }
     '/(legal)/terms': {
@@ -375,7 +441,7 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof protectedSettingsRouteRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof protectedRouteRoute
     }
     '/(site)/blog/': {
       id: '/(site)/blog/'
@@ -390,6 +456,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof protectedSettingsIndexRouteImport
       parentRoute: typeof protectedSettingsRouteRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(site)/blog/$slug': {
       id: '/(site)/blog/$slug'
@@ -506,36 +579,6 @@ const legalRouteRouteWithChildren = legalRouteRoute._addFileChildren(
   legalRouteRouteChildren,
 )
 
-interface siteBlogRouteRouteChildren {
-  siteBlogSlugRoute: typeof siteBlogSlugRoute
-  siteBlogIndexRoute: typeof siteBlogIndexRoute
-}
-
-const siteBlogRouteRouteChildren: siteBlogRouteRouteChildren = {
-  siteBlogSlugRoute: siteBlogSlugRoute,
-  siteBlogIndexRoute: siteBlogIndexRoute,
-}
-
-const siteBlogRouteRouteWithChildren = siteBlogRouteRoute._addFileChildren(
-  siteBlogRouteRouteChildren,
-)
-
-interface siteRouteRouteChildren {
-  siteBlogRouteRoute: typeof siteBlogRouteRouteWithChildren
-  sitePricingRoute: typeof sitePricingRoute
-  siteIndexRoute: typeof siteIndexRoute
-}
-
-const siteRouteRouteChildren: siteRouteRouteChildren = {
-  siteBlogRouteRoute: siteBlogRouteRouteWithChildren,
-  sitePricingRoute: sitePricingRoute,
-  siteIndexRoute: siteIndexRoute,
-}
-
-const siteRouteRouteWithChildren = siteRouteRoute._addFileChildren(
-  siteRouteRouteChildren,
-)
-
 interface protectedSettingsRouteRouteChildren {
   protectedSettingsCreditsRoute: typeof protectedSettingsCreditsRoute
   protectedSettingsProfileRoute: typeof protectedSettingsProfileRoute
@@ -576,10 +619,56 @@ const protectedSettingsRouteRouteWithChildren =
     protectedSettingsRouteRouteChildren,
   )
 
+interface protectedRouteRouteChildren {
+  protectedSettingsRouteRoute: typeof protectedSettingsRouteRouteWithChildren
+}
+
+const protectedRouteRouteChildren: protectedRouteRouteChildren = {
+  protectedSettingsRouteRoute: protectedSettingsRouteRouteWithChildren,
+}
+
+const protectedRouteRouteWithChildren = protectedRouteRoute._addFileChildren(
+  protectedRouteRouteChildren,
+)
+
+interface siteBlogRouteRouteChildren {
+  siteBlogSlugRoute: typeof siteBlogSlugRoute
+  siteBlogIndexRoute: typeof siteBlogIndexRoute
+}
+
+const siteBlogRouteRouteChildren: siteBlogRouteRouteChildren = {
+  siteBlogSlugRoute: siteBlogSlugRoute,
+  siteBlogIndexRoute: siteBlogIndexRoute,
+}
+
+const siteBlogRouteRouteWithChildren = siteBlogRouteRoute._addFileChildren(
+  siteBlogRouteRouteChildren,
+)
+
+interface siteRouteRouteChildren {
+  siteBlogRouteRoute: typeof siteBlogRouteRouteWithChildren
+  siteLoginRoute: typeof siteLoginRoute
+  sitePricingRoute: typeof sitePricingRoute
+  siteIndexRoute: typeof siteIndexRoute
+}
+
+const siteRouteRouteChildren: siteRouteRouteChildren = {
+  siteBlogRouteRoute: siteBlogRouteRouteWithChildren,
+  siteLoginRoute: siteLoginRoute,
+  sitePricingRoute: sitePricingRoute,
+  siteIndexRoute: siteIndexRoute,
+}
+
+const siteRouteRouteWithChildren = siteRouteRoute._addFileChildren(
+  siteRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   legalRouteRoute: legalRouteRouteWithChildren,
+  protectedRouteRoute: protectedRouteRouteWithChildren,
   siteRouteRoute: siteRouteRouteWithChildren,
-  protectedSettingsRouteRoute: protectedSettingsRouteRouteWithChildren,
+  ApiOrderRoute: ApiOrderRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

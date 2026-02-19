@@ -1,213 +1,108 @@
-Welcome to your new TanStack Start app! 
+# My SaaS App Start
 
-# Getting Started
+基于 TanStack Start 的 SaaS 项目模板，部署到 Cloudflare Workers。
 
-To run this application:
+## 技术栈
+
+| 分类 | 技术 |
+|---|---|
+| 框架 | TanStack Start + React 19 |
+| 样式 | Tailwind CSS 4 + shadcn/ui |
+| 数据库 | Supabase PostgreSQL + Drizzle ORM |
+| 数据库连接 | Cloudflare Hyperdrive（生产）/ 直连（开发） |
+| 认证 | Better Auth（GitHub OAuth + 邮箱密码） |
+| 文档 | Fumadocs（MDX 渲染） |
+| 部署 | Cloudflare Workers |
+| 构建 | Vite 7 |
+
+## 项目结构
+
+```
+src/
+├── components/ui/       # shadcn 组件
+├── db/
+│   ├── index.ts         # 数据库连接（自动适配 dev/Workers 环境）
+│   ├── config.ts        # drizzle-kit 配置
+│   ├── schema/          # Drizzle schema 定义
+│   └── migrations/      # 数据库迁移文件
+├── lib/
+│   ├── auth.ts          # Better Auth 服务端配置
+│   ├── auth-client.ts   # Better Auth 客户端
+│   └── auth.server.ts   # 鉴权相关 server functions
+├── routes/
+│   ├── __root.tsx        # 根布局
+│   ├── (site)/           # 公开页面（首页、博客、定价等）
+│   ├── (protected)/      # 需要登录的页面（settings 等）
+│   ├── (legal)/          # 法律条款页面
+│   └── api/              # API 路由（auth 回调等）
+```
+
+## 环境变量
+
+在 `.env.local` 中配置：
+
+```env
+DATABASE_URL="postgresql://localhost:5432/tanstack_start_saas"
+BETTER_AUTH_SECRET="your-secret"
+BETTER_AUTH_URL="http://localhost:3000"
+GITHUB_CLIENT_ID="your-github-client-id"
+GITHUB_CLIENT_SECRET="your-github-client-secret"
+```
+
+## 开发
 
 ```bash
 pnpm install
-pnpm dev
+pnpm run dev          # 启动开发服务器 http://localhost:3000
 ```
 
-# Building For Production
-
-To build this application for production:
+## 数据库
 
 ```bash
-pnpm build
+pnpm run db:generate  # 生成迁移文件
+pnpm run db:migrate   # 执行迁移
+pnpm run db:push      # 直接推送 schema 到数据库（开发用）
+pnpm run db:studio    # 打开 Drizzle Studio
 ```
 
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## 部署
 
 ```bash
-pnpm test
+pnpm run deploy       # 构建并部署到 Cloudflare Workers
 ```
 
-## Styling
+### Hyperdrive 配置
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `pnpm add @tailwindcss/vite tailwindcss --dev`
-
-## Linting & Formatting
-
-
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
+生产环境通过 Cloudflare Hyperdrive 代理数据库连接。创建 Hyperdrive 实例：
 
 ```bash
-pnpm lint
-pnpm format
-pnpm check
+pnpm wrangler hyperdrive create my-hyperdrive \
+  --connection-string="postgresql://user:password@host:5432/dbname"
 ```
 
+将返回的 ID 填入 `wrangler.jsonc` 的 `hyperdrive[0].id` 中。
 
-## Shadcn
-
-Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
+如需关闭 Hyperdrive 查询缓存（实时性要求高的场景）：
 
 ```bash
-pnpm dlx shadcn@latest add button
+pnpm wrangler hyperdrive update <id> --caching-disabled
 ```
 
+## 关键设计决策
 
+### 数据库连接（db/index.ts）
 
-## Routing
+通过 `getDb()` 异步函数获取数据库实例，自动适配两种运行环境：
 
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
+- **开发模式**：Cloudflare Vite 插件禁用（避免 workerd 运行时的 TCP 连接问题），直连本地数据库，全局缓存连接防止 HMR 泄漏
+- **生产模式**：通过 `import('cloudflare:workers')` 获取 Hyperdrive 连接字符串，每次请求创建新实例（Hyperdrive 管理底层连接池），`prepare: false` 因 Hyperdrive 事务池模式要求
 
-### Adding A Route
+### Vite 配置（vite.config.ts）
 
-To add a new route to your application just add a new file in the `./src/routes` directory.
+Cloudflare 插件仅在 `vite build` 时启用（`command === 'build'`），开发时 SSR 运行在 Node.js 中，避免 workerd 运行时导致 postgres.js TCP 连接交替失败的问题。
 
-TanStack will automatically generate the content of the route file for you.
+### 鉴权
 
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+- **路由守卫**：`(protected)/route.tsx` 的 `beforeLoad` 中调用 `getSession()`，未登录 redirect 到 `/login`，session 通过 route context 向下传递给所有子路由
+- **Server Function 鉴权**：调用 `ensureSession()` 抛普通 Error，由客户端 catch 处理
+- **客户端前置检查**：mutation 前先检查 `authClient.useSession()` 状态，避免无意义的请求

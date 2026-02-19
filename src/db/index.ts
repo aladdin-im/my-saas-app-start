@@ -1,6 +1,7 @@
 import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import * as schema from './schema.ts';
+import * as authSchema from './schema/auth-schema';
+import * as schema from './schema/schema';
 
 export type Database = PostgresJsDatabase<typeof schema>;
 
@@ -31,13 +32,13 @@ export async function getDb(): Promise<Database> {
         // Hyperdrive 在 Cloudflare 侧管理底层连接池，这里无需缓存
         // prepare: false 是 Hyperdrive 的要求（事务池模式不支持 prepared statements）
         const client = postgres(connectionString, { prepare: false });
-        return drizzle({ client, schema });
+        return drizzle({ client, schema: { ...schema, ...authSchema } });
     }
 
     // 开发环境：全局缓存，避免 HMR 热重载导致连接泄漏
     if (!global._db) {
         const client = postgres(connectionString, { max: 1 });
-        global._db = drizzle({ client, schema });
+        global._db = drizzle({ client, schema: { ...schema, ...authSchema } });
     }
     return global._db;
 }
